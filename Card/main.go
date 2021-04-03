@@ -26,3 +26,30 @@ func main() {
 
 	fmt.Println(card)
 }
+
+/*We will define a new function that will return a string of "Ace of Spaced"
+
+you can do this in main function card := newCard() */
+func newCard() string { //note: you MUST specify the return type, if your function will return a value
+	return "Ace of Spaces"
+}
+
+/* How you declare a function that return void or nothing in go
+
+func newCard2() {
+	return
+}
+
+*****************************
+If we had another file called state.go with the following code
+
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println(newCard()) //notice that we calling the method newCard from another file called main.go
+}
+
+This is valid because Files in the same package can freely call functions defined in other files in go
+*/
