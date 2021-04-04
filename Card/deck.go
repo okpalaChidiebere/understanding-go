@@ -4,8 +4,10 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"os"      //this package works well across all operating systems your code is running be it windows, mac, linux
 	"strings" //more on this library here here https://golang.org/pkg/strings/
+	"time"
 )
 
 //you can image this as defining your class like in c++, javascript or java
@@ -130,6 +132,37 @@ func newDeckFromFile(filename string) deck {
 	*/
 	s := strings.Split(string(bs), ",") //NOTE: you will get use to seeing very short variable names in go like the "s" :)
 	return deck(s)
+}
+
+/*
+
+This function takes a deck of cards and randomalize the order of the cards inside of the deck
+
+It makes sense for this method to have a receiver because we want to be able to call .shuffle() on a cards variables of deck type and expects the cards in the deck to be randomly placed
+*/
+func (d deck) shuffle() {
+
+	/*
+		By default, go program uses the exact same seed to generate random numbers
+		 for your code. So we have to change the seed ourselves to a different
+		 value each time we want to generate random numbers to so that random numbers
+		 generated will not always have thesame sequence
+
+		 So our seed will be the current time which will always be different, so our
+		 sequence of randomness for the index will always be different
+	*/
+	source := rand.NewSource(time.Now().UnixNano()) //time.Now() creates a new time object and .UnixNano() converts the current time to base64
+	r := rand.New(source)
+
+	//Iterate through all the element in our slice
+	for i := range d { //Note: here that we did not have element that we are interating over "for i, card := range d{ ... }"; The "card" is missing. This is because we really just care about the index in this case
+
+		//we generate a random number within our index range for the list
+		newPosition := r.Intn(len(d) - 1) //len() method is how we get the length of a slice
+
+		//We perform a swap operation in go
+		d[i], d[newPosition] = d[newPosition], d[i] //We take the index at the new Position and assign it to i, and take what is at i and assign it to new position. Remember you are assigning what on the right after the equal sign to the left
+	}
 }
 
 /*
