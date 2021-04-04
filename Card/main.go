@@ -11,6 +11,8 @@ func main() {
 	hand.printCards()
 	remainingCards.printCards()
 
+	cards.saveToFile("my_cards") //You will see a plainText file generated in our project dirctory called my_cards
+
 	/*
 	  we can now call the printCard() method on the cards variable. This is because of the receiver we set up on it
 
