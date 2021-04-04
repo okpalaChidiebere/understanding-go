@@ -16,5 +16,5 @@ func main() {
 
 	  Receiver adds methods on the variables that we create of that type
 	*/
-	cards.printCards()
+	cards.printCards() // After calling "deal" and passing in "cards", the list of strings that the "cards" variable point did not change. We never directly modified the slice that 'cards' is pointing at.
 }
