@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+//When you have more than one import, you wrap your libraries in a parenthesis with no commas between them
+import (
+	"fmt"
+	"strings" //more on this library here here https://golang.org/pkg/strings/
+)
 
 //you can image this as defining your class like in c++, javascript or java
 type deck []string //create a new type of 'deck' which is a slice of strings
@@ -64,6 +68,22 @@ Return value: The function returns two values of type deck. In go you can tell t
 */
 func deal(d deck, handSize int) (deck, deck) {
 	return d[:handSize], d[handSize:] //we return the first deck which is the one in our hand, and the second value is the remaining cards on deck
+}
+
+/*It takes a deck and returns a complete representation of that deck in string
+
+NOTE: we attached a deck receiver to this function. Now, you can optionally pass the deck as an argument
+But for our project we wanted to be able to call cards.toString() so having a receiver makes more sense.
+Down the line you will learn when to use a receiver over a argument for you custom type
+*/
+func (d deck) toString() string {
+
+	/*
+		TypeConversion in Go is where you take one type value and convert it to another type. To achieve
+		this in go you; have the type you want on the left side, a parenthesis and the type that you have
+		inside the parenthesis. Eg: []string(d) we have our deck and we convert it to a slice or array of strings
+	*/
+	return strings.Join([]string(d), ",") //We joined every string at each index in the array to one string with a comma between each value.
 }
 
 /*
