@@ -5,6 +5,29 @@ import "fmt"
 //you can image this as defining your class like in c++, javascript or java
 type deck []string //create a new type of 'deck' which is a slice of strings
 
+/*
+Creates and returns a list of playing cards
+Imagin this method as your "constructor" for C++, Java or Javascript in OOP
+
+We will not add any receiver to this function because, chances are when you are
+calling this methid, you dont have an exsiting deck. You want a new deck defined
+*/
+func newDeck() deck {
+	cards := deck{} //creates a new variable of type deck which is empty
+
+	//To avoid manually having to type out all 15 different combinations of cards we will use two for loops to
+	//to initialize our empty deck
+	cardSuits := []string{"Spades", "Diamonds", "Hearts", "Clubs"} //defining list of card suits
+	cardValues := []string{"Ace", "Two", "Three", "Four"}          //defining a list of card values
+	for _, suit := range cardSuits {                               //NOTE: we use underScore(_) instead of the index to get around the syntax error of not using a defined index variable
+		for _, value := range cardValues {
+			cards = append(cards, value+" of "+suit)
+		}
+	}
+
+	return cards //returning our new deck
+}
+
 //You can imagine this as defining the methods that belongs to your class like in c++, javascript or java
 func (d deck) printCards() { //NOTE: the "(d deck)" is a receiver.
 
