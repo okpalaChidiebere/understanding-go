@@ -114,6 +114,22 @@ func newDeckFromFile(filename string) deck {
 		fmt.Println("Error:", err) //log the error
 		os.Exit(1)                 //quit the program
 	}
+
+	/*
+		Recap ****
+		We have a deck and we want to eventually turn it into a byte of slices
+		So we have our deck which is a slice of string, turn it to a slice of strings,
+		then join all the slices into a single string, then take that string and turn
+		it into a byte slice then write the bytes to hard drive
+
+		To get back our deck from the textFile in our drive, we basically did the
+		reverse process of what we did to save it. We read the bytes from the file
+		in the drive, perform a type cast that converts the bytes to string, then
+		perform a split operation in the string split the string into an array,
+		then finally back to our custom type deck
+	*/
+	s := strings.Split(string(bs), ",") //NOTE: you will get use to seeing very short variable names in go like the "s" :)
+	return deck(s)
 }
 
 /*
