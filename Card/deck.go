@@ -4,6 +4,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"os"      //this package works well across all operating systems your code is running be it windows, mac, linux
 	"strings" //more on this library here here https://golang.org/pkg/strings/
 )
 
@@ -96,6 +97,23 @@ we return the error that might bet produced when we attempt to write something t
 func (d deck) saveToFile(filename string) error {
 	return ioutil.WriteFile(filename, []byte(d.toString()), 0666) //0666 is apermission where anyone can read or write to this file
 	//this writeFUnction could return an error according to documentation so we return the whole result of this write function
+}
+
+/*
+We dont need any receiver for this function because we dont yet have a deck
+when this function is called
+*/
+func newDeckFromFile(filename string) deck {
+	bs, err := ioutil.ReadFile(filename) //the ReadFile method returns two values slice of bytes which is a slice of strings and error value
+
+	//If something when wrong during the read process the err variable will be populated with an error value return by the readFile method otherwise it will be nil
+	if err != nil { //error handling
+		//The two options below is what you as as developer can implement in a real situation when something goes wrong while we get something from a file or some logi in your code
+		// Option #1 - log the error and return a call to newDeck(). At least we still give the user a deck
+		// Option #2 - Log the error and entirely quit the program
+		fmt.Println("Error:", err) //log the error
+		os.Exit(1)                 //quit the program
+	}
 }
 
 /*
