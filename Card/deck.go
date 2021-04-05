@@ -1,3 +1,5 @@
+/*The whole purpose of this file is to write outthe code of exactly what a deck is and how it behaves*/
+
 package main
 
 //When you have more than one import, you wrap your libraries in a parenthesis with no commas between them
@@ -69,6 +71,12 @@ There is no this or self keyword in go
 Second Argument: is amount of cards we want in our hands that we want to return
 
 Return value: The function returns two values of type deck. In go you can tell the compiler that we are returning two values. C++ has this functionality as well
+
+
+The reason we choose not to add a receiver to this function is because it will be confusing for what this function does
+EG: lets say it had a reciver and we call this method in main function like cards.deal(5)
+Look at that way its invoked, we will assume that we want to modify the cards variable; maybe take 5 cards from the deck. But his function does not modify the variables
+It just returns a new values gotten from the cards
 */
 func deal(d deck, handSize int) (deck, deck) {
 	return d[:handSize], d[handSize:] //we return the first deck which is the one in our hand, and the second value is the remaining cards on deck

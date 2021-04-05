@@ -16,7 +16,10 @@ use "go test" command to run your test file(s). If there ins not test file, noth
 
 package main
 
-import "testing"
+import (
+	"os"
+	"testing"
+)
 
 /*
 The "t" is a testing hanlde that we tell the test when something goes wrong with our testing
@@ -46,4 +49,27 @@ func TestNewDeck(t *testing.T) {
 		is invoked so then will it so a fail test message otherwise you will see just one message for
 		PASS test not 3 test passed
 	*/
+}
+
+/*
+/Remeber the test funtion name must start with a capital letter and the name of your test function must be the meaningful action of the test function will perform
+
+Also the name of the function we are trying to test(newDeckFromFile) at deck.go is inside the test function name
+*/
+func TestSaveToDeckAndNewDeckFromFile(t *testing.T) {
+
+	os.Remove("_decktesting") //We remove the test file from that the previous test by running this function created if it exists. We did not handle the error case coz we testing. Who cares!! LOL
+
+	deck := newDeck()               //create a new deck
+	deck.saveToFile("_decktesting") //save the new deck to file
+
+	loadedDeck := newDeckFromFile("_decktesting") //load the deck from the drive
+
+	//make sure that the total cards in the deck is correct
+	if len(loadedDeck) != 16 {
+		t.Errorf("Expected 16 cards in deck, got %v", len(loadedDeck))
+	}
+
+	//The clean up the file after our testing
+	os.Remove("_decktesting")
 }
