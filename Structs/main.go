@@ -43,9 +43,10 @@ func main() {
 	user.updateName("ifeanyi")
 	user.print() //**Still Prints : {firstName:Chidi lastName:Okpala contact:{email:chidi@gmail.com zipCode:9000}}. The ifeanyi is not updated in the variable of the main function but inside the updateName() itself it works
 	/*To fix having the user variable update in the main function, we use a point to actually pass the reference of the real value in memory and not a copy.*/
-	userPointer := &user //give the memeory address of the value that this variable(user) is pointing to. So now the userPointer variable now points to thesame adderess where the user variable points to. &<variable> turns your value into an address
-	userPointer.updateNameByReference("ifeanyi")
-	user.print() //Prints; {firstName:ifeanyi lastName:Okpala contact:{email:chidi@gmail.com zipCode:9000}} Now we have the varibale updated in our main function
+	//userPointer := &user //give the memeory address of the value that this variable(user) is pointing to. So now the userPointer variable now points to thesame adderess where the user variable points to. &<variable> turns your value into an address
+	//userPointer.updateNameByReference("ifeanyi")
+	user.updateNameByReference("ifeanyi") //For shortcut you dont need to wite the & all the time to convert value to maac address and pass the address referecne. As long as you have the "*" symbol next to the type in the receiver or function argument, go will update it properly for you!
+	user.print()                          //Prints; {firstName:ifeanyi lastName:Okpala contact:{email:chidi@gmail.com zipCode:9000}} Now we have the varibale updated in our main function
 
 }
 
