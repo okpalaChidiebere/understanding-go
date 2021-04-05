@@ -48,6 +48,12 @@ func main() {
 	user.updateNameByReference("ifeanyi") //For shortcut you dont need to wite the & all the time to convert value to maac address and pass the address referecne. As long as you have the "*" symbol next to the type in the receiver or function argument, go will update it properly for you!
 	user.print()                          //Prints; {firstName:ifeanyi lastName:Okpala contact:{email:chidi@gmail.com zipCode:9000}} Now we have the varibale updated in our main function
 
+	name := "bill"
+
+	namePointer := &name
+
+	fmt.Println(&namePointer) //prints address: 0xc00000e028
+	printPointer(namePointer)
 }
 
 func (p Person) print() {
@@ -75,4 +81,10 @@ func (pointerToPerson *Person) updateNameByReference(newfirstName string) {
 		*<address> like *Person turns your address passed into a value. * tells us that we are pointing to a MAC address where a varible is stored
 	*/
 	(*pointerToPerson).firstName = newfirstName //(*pointerToPerson) because of the brackets around the variable, we now have access real struct value as well as its fields. You can see it as desturcting your value. So now we can update it or do whatever
+}
+
+func printPointer(namePointer *string) {
+	fmt.Println(*&namePointer) //prints address 0xc00000e038
+	//The address is of a different value because by default, *everything* in go is pass by value. But the value can still be referenced because its a pointer
+	fmt.Println(*namePointer) //prints: bill as you see we still printed bill
 }
