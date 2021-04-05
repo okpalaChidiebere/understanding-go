@@ -17,13 +17,6 @@ type Person struct {
 	contact   ContactInfo
 }
 
-/*Person and Person2 are still thesame*/
-type Person2 struct {
-	firstName   string
-	lastName    string
-	ContactInfo //shorthand way of embedding a struct into another struct. ES6 in JS has this feature. yiu can imagine this as  "ContactInfo ContactInfo". So ContactInfo field of ContactInfo type
-}
-
 func main() {
 
 	/*
@@ -46,15 +39,39 @@ func main() {
 		},
 	}
 
-	user2 := Person2{
-		firstName: "Chidi",
-		lastName:  "Okpala",
-		ContactInfo: ContactInfo{
-			email:   "chidi@gmail.com",
-			zipCode: 9000,
-		},
-	}
+	user.print() //Prints : {firstName:Chidi lastName:Okpala contact:{email:chidi@gmail.com zipCode:9000}}
+	user.updateName("ifeanyi")
+	user.print() //**Still Prints : {firstName:Chidi lastName:Okpala contact:{email:chidi@gmail.com zipCode:9000}}. The ifeanyi is not updated in the variable of the main function but inside the updateName() itself it works
+	/*To fix having the user variable update in the main function, we use a point to actually pass the reference of the real value in memory and not a copy.*/
+	userPointer := &user //give the memeory address of the value that this variable(user) is pointing to. So now the userPointer variable now points to thesame adderess where the user variable points to. &<variable> turns your value into an address
+	userPointer.updateNameByReference("ifeanyi")
+	user.print() //Prints; {firstName:ifeanyi lastName:Okpala contact:{email:chidi@gmail.com zipCode:9000}} Now we have the varibale updated in our main function
 
-	fmt.Printf("%+v\n", user)  //Prints : {firstName:Chidi lastName:Okpala contact:{email:chidi@gmail.com zipCode:9000}}
-	fmt.Printf("%+v\n", user2) //Prints : {firstName:Chidi lastName:Okpala contact:{email:chidi@gmail.com zipCode:9000}}
+}
+
+func (p Person) print() {
+	fmt.Printf("%+v\n", p)
+}
+
+/* This method when called will update the person's firstname
+
+By default, this is called by value; meaning a copy of your variable is passed to your receiver
+*/
+func (p Person) updateName(newfirstName string) {
+	p.firstName = newfirstName
+	fmt.Printf("%+v\n", p) //prints: {firstName:ifeanyi lastName:Okpala contact:{email:chidi@gmail.com zipCode:9000}}
+
+}
+
+/*NOTE: Passing by reference cannot be only done in the receiver with the pointers, you can have pointer in the arguments for your function as well
+But this works for this scenario*/
+func (pointerToPerson *Person) updateNameByReference(newfirstName string) {
+	/*
+		now we have access to the real value of the variable because "&user" gave
+		use the MAC address where the variable is stored. If we had not passed the
+		&<variableName>, by default a copy of the variable will be made and we will
+		not be able to update the variale in the main function. It will work just fine but not just the outcome we expected
+		*<address> like *Person turns your address passed into a value. * tells us that we are pointing to a MAC address where a varible is stored
+	*/
+	(*pointerToPerson).firstName = newfirstName //(*pointerToPerson) because of the brackets around the variable, we now have access real struct value as well as its fields. You can see it as desturcting your value. So now we can update it or do whatever
 }
