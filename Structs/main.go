@@ -84,7 +84,7 @@ func (pointerToPerson *Person) updateNameByReference(newfirstName string) {
 }
 
 func printPointer(namePointer *string) {
-	fmt.Println(*&namePointer) //prints address 0xc00000e038
+	fmt.Println(&namePointer) //prints address 0xc00000e038
 	//The address is of a different value because by default, *everything* in go is pass by value. But the value can still be referenced because its a pointer
 	fmt.Println(*namePointer) //prints: bill as you see we still printed bill
 }
