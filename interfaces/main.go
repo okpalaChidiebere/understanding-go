@@ -2,6 +2,30 @@ package main
 
 import "fmt"
 
+type bot interface {
+	/*
+		We are basically saying, if there is a type in this program or workspace that implements the function
+		getGretting() that returns a string is now an honorary member of the type bot. This means those types can now also be of type bot
+		Go takes care of the mactching for us. You dont have to write an extra code to say types(englishBot, spanishBot) can be used as bot type
+
+		Being an honourary memeber means that those types can now call the printGreetingWithInterface() method
+		This means we can now takes the custom types(englishBot, spanishBot) and pass them down to type bot as well
+
+		Being an honorary mameber is one of the rules of interface
+
+		With inteface you CANNOT create a value directly  out of interface type like you do for concrete type like int, string, map, struct or your own custom type that extends the standard type like englishBot etc
+
+		You will start to see terms like concrete type or interface type in documentations in go so remember what they are!
+	*/
+	getGreeting() string //Note we are not only limited to define the return type of a function but also the argument types.
+	/*
+		You can list out multiple different functions that a type has to satisfy to qualified as being of type bot. Eg
+		getGreeting(int, string) (string, error)
+		getBotVersion() float64
+		respondToUser(user) string
+	*/
+}
+
 /*
 We are using a struct here so that we can have a function associated with these types
 to demonstrate the importance of interfaces :)
@@ -13,8 +37,8 @@ func main() {
 	eb := englishBot{}
 	sb := spanishBot{}
 
-	printGreeting1(eb)
-	printGreeting(sb)
+	printGreetingWithInterface(eb) //prints: "Hi there!"
+	printGreetingWithInterface(sb) //prints: "Hola!"
 }
 
 func (eb englishBot) getGreeting() string {
@@ -42,3 +66,7 @@ func printGreeting(sb spanishBot) {
 }
 
 /**/
+
+func printGreetingWithInterface(b bot) {
+	fmt.Println(b.getGreeting())
+}
