@@ -7,6 +7,8 @@ import (
 	"os"
 )
 
+type logWriter struct{}
+
 func main() {
 	resp, err := http.Get("http://google.com")
 	if err != nil {
@@ -56,4 +58,27 @@ func main() {
 
 	*/
 	io.Copy(os.Stdout, resp.Body)
+
+	lw := logWriter{}
+
+	/*
+		As long as io.Copy() is concern, lw is a value that implements the writer interface because
+		satisfies it has a function called Write() that takes a byte slice and returns an int and an error
+
+		If we put together a Junk or crap logic inside the function that does not do the right thing, it will compile and run
+		but our program will not do what it is actually meant to do
+	*/
+	io.Copy(lw, resp.Body)
+}
+
+/*
+The signature of the function associated to our custom type must satisfy "Write(bs []byte) (int, error)" for it to implement Writer interface
+https://golang.org/pkg/io/#Writer
+
+Dont forget why we can just write the type in the receiver without the value is because we are not using the value in our function! :) Its a shorthand way
+*/
+func (logWriter) Write(bs []byte) (int, error) {
+	fmt.Println(string(bs))
+	fmt.Println("Just wrote this many bytes:", len(bs))
+	return len(bs), nil
 }
