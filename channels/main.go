@@ -20,11 +20,9 @@ func main() {
 		go checkLinkAsync(link, c)
 	}
 
-	/*Although this is a for loop, i will not be interating over and over again millions of times per second. The reciver value "<-c" is still s blocking operation
-	The for loop will only loop anytime we receive a value through the channel*/
-	for { //we want the loop to run forever so, we deleted the "i := 0; i < len(links)-1; i++ "
+	for l := range c { //so now this for loop will wait for next next channel value. The range c is now a Block code
 		//we refetch the link being fetched again
-		go checkLinkAsync(<-c, c) //first argument will be the link that the previous routine returned(go know the type fo value returned by the channel is a string), the second argument will be the channel
+		go checkLinkAsync(l, c) //first argument will be the link that the previous routine returned(go know the type fo value returned by the channel is a string), the second argument will be the channel
 	}
 
 }
